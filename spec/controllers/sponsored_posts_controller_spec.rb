@@ -41,12 +41,12 @@ RSpec.describe SponsoredPostsController, type: :controller do
 
   describe "GET #edit" do
     it "returns http success" do
-      get :edit
+      get :edit, id: my_sponsored_post.id
       expect(response).to have_http_status(:success)
     end
 
     it "renders the edit view" do
-      get :edit
+      get :edit, id: my_sponsored_post.id
       expect(response).to render_template :edit
     end
 
