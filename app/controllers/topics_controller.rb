@@ -2,6 +2,7 @@ class TopicsController < ApplicationController
   before_action :require_sign_in, except: [:index, :show]
   before_action :authorize_user, except: [:index, :show]
 
+
   def index
     @topics = Topic.all
   end
@@ -11,17 +12,27 @@ class TopicsController < ApplicationController
   end
 
   def new
-    @topic = Topic.new
+    if current_user.admin?
+      @topic = Topic.new
+    else
+      "You must be an admin to do that"
+      redirect_to topics_path
+    end
   end
 
   def create
-    @topic = Topic.new(topic_params)
+    if current_user.admin?
+      @topic = Topic.new(topic_params)
 
-    if @topic.save
-      redirect_to @topic, notice: "Topic was saved successfully."
+      if @topic.save
+        redirect_to @topic, notice: "Topic was saved successfully."
+      else
+        flash.now[:alert] = "Error creating topic. Please try again."
+        render :new
+      end
     else
-      flash.now[:alert] = "Error creating topic. Please try again."
-      render :new
+      "You must be an admin to do that"
+      redirect_to topics_path
     end
   end
 
@@ -63,8 +74,8 @@ class TopicsController < ApplicationController
   end
 
   def authorize_user
-    unless current_user.admin?
-      flash[:alert] = "You must be an admin to do that."
+    unless current_user.admin? || current_user.moderator?
+      flash[:alert] = "You must be either a moderator or an admin to do that."
       redirect_to topics_path
     end
   end
