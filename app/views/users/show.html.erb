@@ -20,7 +20,7 @@
 </div>
 
 <h2>Posts</h2>
-<%= render @user.posts %>
+<%= show_posts_if_user_has_them %>
 
 <h2>Comments</h2>
-<%= render @user.comments %>
+<% show_comments_if_user_has_them %>
