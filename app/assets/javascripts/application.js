@@ -15,3 +15,26 @@
 //= require turbolinks
 //= require bootstrap
 //= require_tree .
+
+var badabingo = {};
+//use this for event tracking
+$(document).on('turbolinks:load', function() {
+  //User clicks topic link
+  $('.topic').click(function() {
+    badabingo.report('User clicked topic');
+  });
+  console.log(badabingo);
+})
+
+
+//Another option for event tracking below:
+/*
+var badabingo = {};
+badabingo.report = function(eventName){
+  var event = {event: { name: eventName }};
+  var request = new XMLHttpRequest();
+  request.open("POST", "http://localhost:3000/api/events", true);
+  request.setRequestHeader('Content-Type', 'application/json');
+  request.send(JSON.stringify(event));
+};
+*/
