@@ -17,19 +17,7 @@
 //= require_tree .
 
 var badabingo = {};
-//use this for event tracking
-$(document).on('turbolinks:load', function() {
-  //User clicks topic link
-  $('.topic').click(function() {
-    badabingo.report('User clicked topic');
-  });
-  console.log(badabingo);
-})
 
-
-//Another option for event tracking below:
-/*
-var badabingo = {};
 badabingo.report = function(eventName){
   var event = {event: { name: eventName }};
   var request = new XMLHttpRequest();
@@ -37,4 +25,16 @@ badabingo.report = function(eventName){
   request.setRequestHeader('Content-Type', 'application/json');
   request.send(JSON.stringify(event));
 };
-*/
+
+$(document).on('turbolinks:load', function() {
+  //page loads
+  badabingo.report('User loaded page');
+  //User clicks topic link
+  $('.topic').click(function() {
+    badabingo.report('User clicked topic');
+  });
+  //User clicks post link
+  $('.post').click(function() {
+    badabingo.report('User clicked post');
+  });
+})
